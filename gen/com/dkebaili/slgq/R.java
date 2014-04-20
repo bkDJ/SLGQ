@@ -204,6 +204,14 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int activityChooserViewStyle=0x7f01006c;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int autoUpdate=0x7f01006f;
         /**  Specifies a background drawable for the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -2210,13 +2218,29 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #DigitalDisplayBox_autoUpdate com.dkebaili.slgq:autoUpdate}</code></td><td></td></tr>
            <tr><td><code>{@link #DigitalDisplayBox_slgqtype com.dkebaili.slgq:slgqtype}</code></td><td></td></tr>
            </table>
+           @see #DigitalDisplayBox_autoUpdate
            @see #DigitalDisplayBox_slgqtype
          */
         public static final int[] DigitalDisplayBox = {
-            0x7f01006e
+            0x7f01006e, 0x7f01006f
         };
+        /**
+          <p>This symbol is the offset where the {@link com.dkebaili.slgq.R.attr#autoUpdate}
+          attribute's value can be found in the {@link #DigitalDisplayBox} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.dkebaili.slgq:autoUpdate
+        */
+        public static final int DigitalDisplayBox_autoUpdate = 1;
         /**
           <p>This symbol is the offset where the {@link com.dkebaili.slgq.R.attr#slgqtype}
           attribute's value can be found in the {@link #DigitalDisplayBox} array.

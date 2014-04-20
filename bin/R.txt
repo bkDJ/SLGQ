@@ -35,6 +35,7 @@ int attr actionOverflowButtonStyle 0x7f01000a
 int attr actionProviderClass 0x7f010050
 int attr actionViewClass 0x7f01004f
 int attr activityChooserViewStyle 0x7f01006c
+int attr autoUpdate 0x7f01006f
 int attr background 0x7f01002f
 int attr backgroundSplit 0x7f010031
 int attr backgroundStacked 0x7f010030
@@ -535,7 +536,8 @@ int styleable ActivityChooserView_expandActivityOverflowButtonDrawable 1
 int styleable ActivityChooserView_initialActivityCount 0
 int[] styleable CompatTextView { 0x7f01006d }
 int styleable CompatTextView_textAllCaps 0
-int[] styleable DigitalDisplayBox { 0x7f01006e }
+int[] styleable DigitalDisplayBox { 0x7f01006e, 0x7f01006f }
+int styleable DigitalDisplayBox_autoUpdate 1
 int styleable DigitalDisplayBox_slgqtype 0
 int[] styleable LinearLayoutICS { 0x7f01002e, 0x7f010055, 0x7f010056 }
 int styleable LinearLayoutICS_divider 0
