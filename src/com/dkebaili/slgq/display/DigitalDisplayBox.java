@@ -90,7 +90,7 @@ public class DigitalDisplayBox extends RelativeLayout {
 		tvNumber.setText(String.valueOf(SlgqUtils.currentValue(type, d)));
 		tvNumber.invalidate();
 		
-		if (autoUpdates) {
+		if (autoUpdates && !paused) {
 			Handler h = new Handler();
 			long millisTillNextUpdate = SlgqUtils.millisTillNextUpdate(type, d);
 			h.postDelayed(updater, millisTillNextUpdate);
