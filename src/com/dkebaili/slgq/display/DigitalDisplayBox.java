@@ -1,6 +1,5 @@
 package com.dkebaili.slgq.display;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import com.dkebaili.slgq.R;
@@ -13,7 +12,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;

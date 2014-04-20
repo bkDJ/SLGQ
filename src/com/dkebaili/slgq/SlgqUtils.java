@@ -76,7 +76,7 @@ public class SlgqUtils {
 		final long actualVal = calendar.getTimeInMillis();
 		switch (t) {
 		case S:
-			calendar.set(Calendar.HOUR_OF_DAY, (calendar.get(Calendar.HOUR_OF_DAY) / 8) * 8);
+			calendar.set(Calendar.HOUR_OF_DAY, (calendar.get(Calendar.HOUR_OF_DAY) / 3) * 3);
 			calendar.set(Calendar.MINUTE, 0);
 			calendar.set(Calendar.SECOND, 0);
 			calendar.set(Calendar.MILLISECOND, 0);
@@ -110,15 +110,15 @@ public class SlgqUtils {
 		calendar.setTime(d);
 		switch (t) {
 		case S:
-			return calendar.get(Calendar.HOUR_OF_DAY) % 8;
+			return calendar.get(Calendar.HOUR_OF_DAY) / 3;
 		case L:
-			int minutesSinceS = (calendar.get(Calendar.HOUR_OF_DAY) % 8) * 60 + calendar.get(Calendar.MINUTE);
+			int minutesSinceS = (calendar.get(Calendar.HOUR_OF_DAY) % 3) * 60 + calendar.get(Calendar.MINUTE);
 			return minutesSinceS / 6;
 		case G:
 			int secondsSinceL = (calendar.get(Calendar.MINUTE) % 6) * 60 + calendar.get(Calendar.SECOND);
 			return secondsSinceL / 12;
 		case Q:
-			int tenthSOfsecondsSinceG = (calendar.get(Calendar.SECOND) * 10 + calendar.get(Calendar.MILLISECOND) / 100) % 120;
+			int tenthSOfsecondsSinceG = (calendar.get(Calendar.SECOND) % 12) * 10 + calendar.get(Calendar.MILLISECOND) / 100;
 			return tenthSOfsecondsSinceG / 4;
 		default:
 			return 0;
