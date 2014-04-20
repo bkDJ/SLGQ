@@ -23,7 +23,7 @@ public class SlgqUtils {
 		case L:
 			return Color.RED;
 		case G:
-			return Color.GREEN;
+			return 0xFF00BB00; // dark green
 		case Q:
 			return Color.MAGENTA;
 		default:
@@ -76,7 +76,7 @@ public class SlgqUtils {
 		final long actualVal = calendar.getTimeInMillis();
 		switch (t) {
 		case S:
-			calendar.set(Calendar.HOUR_OF_DAY, (calendar.get(Calendar.HOUR_OF_DAY) / 3) * 3);
+			calendar.set(Calendar.HOUR_OF_DAY, (calendar.get(Calendar.HOUR_OF_DAY) / 8) * 8);
 			calendar.set(Calendar.MINUTE, 0);
 			calendar.set(Calendar.SECOND, 0);
 			calendar.set(Calendar.MILLISECOND, 0);
@@ -110,9 +110,9 @@ public class SlgqUtils {
 		calendar.setTime(d);
 		switch (t) {
 		case S:
-			return calendar.get(Calendar.HOUR_OF_DAY) % 3;
+			return calendar.get(Calendar.HOUR_OF_DAY) % 8;
 		case L:
-			int minutesSinceS = (calendar.get(Calendar.HOUR_OF_DAY) % 3) * 60 + calendar.get(Calendar.MINUTE);
+			int minutesSinceS = (calendar.get(Calendar.HOUR_OF_DAY) % 8) * 60 + calendar.get(Calendar.MINUTE);
 			return minutesSinceS / 6;
 		case G:
 			int secondsSinceL = (calendar.get(Calendar.MINUTE) % 6) * 60 + calendar.get(Calendar.SECOND);
@@ -123,5 +123,14 @@ public class SlgqUtils {
 		default:
 			return 0;
 		}
+	}
+	
+	public static float currentValueF(TimeType t, Date d) {
+		if (t == null || d == null) {
+			return 0;
+		}
+		float floor = (float)currentValue(t, d);
+		float fraction = 1.0f - ((float)millisTillNextUpdate(t, d) / (float)millisPerTick(t));
+		return floor + fraction;
 	}
 }

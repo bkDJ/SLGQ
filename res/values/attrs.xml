@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="DigitalDisplayBox">
         <attr name="slgqtype" format="string"/>
+        <attr name="autoUpdate" format="boolean"/>
     </declare-styleable>
 </resources> 

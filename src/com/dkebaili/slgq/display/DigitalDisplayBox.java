@@ -20,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DigitalDisplayBox extends RelativeLayout {
+	boolean paused = false;
+	boolean autoUpdates;
+	
 	TimeType type;
 	String name;
 	
@@ -48,6 +51,7 @@ public class DigitalDisplayBox extends RelativeLayout {
 		}
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DigitalDisplayBox, 0, 0);
 		name = a.getString(R.styleable.DigitalDisplayBox_slgqtype);
+		autoUpdates = a.getBoolean(R.styleable.DigitalDisplayBox_autoUpdate, false);
 		a.recycle();
 		type = TimeType.valueOf(name);
 		int typeColor = SlgqUtils.colorOf(type);
@@ -63,7 +67,7 @@ public class DigitalDisplayBox extends RelativeLayout {
 		
 		tvNumber = (TextView)findViewById(R.id.digitalbox_number);
 		tvNumber.setTextColor(typeColor);
-		updateNumber(new Date(), true);
+		updater.run();
 		
 		findViewById(R.id.digitalbox_numberframe).getBackground().setColorFilter(new PorterDuffColorFilter(
 				typeColor,
@@ -71,19 +75,27 @@ public class DigitalDisplayBox extends RelativeLayout {
 		));
 	}
 	
-	Runnable perpetualUpdater = new Runnable() { @Override public void run() {
-		updateNumber(new Date(), true);
-	}};
+	public void onPause() {
+		paused = true;
+	}
+	public void onResume() {
+		paused = false;
+		if (autoUpdates) {
+			updateNumber(new Date());
+		}
+	}
 	
-	public void updateNumber(Date d, boolean perpetual) {
+	Runnable updater = new Runnable() { @Override public void run() {
+		updateNumber(new Date());
+	}};
+	public void updateNumber(Date d) {
 		tvNumber.setText(String.valueOf(SlgqUtils.currentValue(type, d)));
 		tvNumber.invalidate();
 		
-		if (perpetual) {
+		if (autoUpdates) {
 			Handler h = new Handler();
 			long millisTillNextUpdate = SlgqUtils.millisTillNextUpdate(type, d);
-			Log.d("DDB", "will update " + type.name() + " in " + millisTillNextUpdate + " millis");
-			h.postDelayed(perpetualUpdater, millisTillNextUpdate);
+			h.postDelayed(updater, millisTillNextUpdate);
 		}
 	}
 }

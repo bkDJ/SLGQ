@@ -1,6 +1,7 @@
 package com.dkebaili.slgq;
 
 import com.dkebaili.slgq.display.AnalogSlgqDrawable;
+import com.dkebaili.slgq.display.DigitalDisplayBox;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -52,15 +53,34 @@ public class MainActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+    	AnalogSlgqDrawable drawable;
+    	DigitalDisplayBox[] digitalDisplayBoxes = new DigitalDisplayBox[4];
 
         public PlaceholderFragment() {
         }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            rootView.findViewById(R.id.analog_slgq).setBackgroundDrawable(new AnalogSlgqDrawable(true));
+            drawable = new AnalogSlgqDrawable(true, true);
+            rootView.findViewById(R.id.analog_slgq).setBackgroundDrawable(drawable);
+            for (int i = 0; i < 4; ++i) {
+            	digitalDisplayBoxes[i] = (DigitalDisplayBox)((ViewGroup)rootView.findViewById(R.id.digital_boxes)).getChildAt(i); 
+            }
             return rootView;
+        }
+        @Override public void onPause() {
+        	super.onPause();
+        	drawable.onPause();
+            for (int i = 0; i < 4; ++i) {
+            	digitalDisplayBoxes[i].onPause(); 
+            }
+        }
+        @Override public void onResume() {
+        	super.onResume();
+        	drawable.onResume();
+            for (int i = 0; i < 4; ++i) {
+            	digitalDisplayBoxes[i].onResume(); 
+            }
         }
     }
 

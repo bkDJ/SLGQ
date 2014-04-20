@@ -17,15 +17,18 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 
 public class AnalogSlgqDrawable extends Drawable {
+	boolean paused = false;
 	boolean autoUpdates;
+	boolean allowFractions;
 	float s,l,g,q;
 	Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	Path borderPath = new Path();
 	PointF center = new PointF();
 	float radius;
 	
-	public AnalogSlgqDrawable(boolean autoUpdates) {
+	public AnalogSlgqDrawable(boolean autoUpdates, boolean allowFractions) {
 		this.autoUpdates = autoUpdates;
+		this.allowFractions = allowFractions;
 		paint.setStrokeCap(Paint.Cap.ROUND);
 		updateTimeValues();
 	}
@@ -37,19 +40,37 @@ public class AnalogSlgqDrawable extends Drawable {
 		return android.graphics.PixelFormat.TRANSLUCENT;
 	}
 	
+	public void onPause() {
+		paused = true;
+	}
+	public void onResume() {
+		paused = false;
+		if (autoUpdates) {
+			updateTimeValues();
+		}
+	}
+	
+	private Runnable updater = new Runnable() { @Override public void run() {
+		updateTimeValues();
+		invalidateSelf();
+	}};
 	private void updateTimeValues() {
 		Date d = new Date();
-		s = (float)SlgqUtils.currentValue(TimeType.S, d) / SlgqUtils.getMaxValue(TimeType.S);
-		l = (float)SlgqUtils.currentValue(TimeType.L, d) / SlgqUtils.getMaxValue(TimeType.L);
-		g = (float)SlgqUtils.currentValue(TimeType.G, d) / SlgqUtils.getMaxValue(TimeType.G);
-		q = (float)SlgqUtils.currentValue(TimeType.Q, d) / SlgqUtils.getMaxValue(TimeType.Q);
+		if (allowFractions) {
+			s = 		SlgqUtils.currentValueF(TimeType.S, d) / SlgqUtils.getMaxValue(TimeType.S);
+			l = 		SlgqUtils.currentValueF(TimeType.L, d) / SlgqUtils.getMaxValue(TimeType.L);
+			g = 		SlgqUtils.currentValueF(TimeType.G, d) / SlgqUtils.getMaxValue(TimeType.G);
+			q = 		SlgqUtils.currentValueF(TimeType.Q, d) / SlgqUtils.getMaxValue(TimeType.Q);
+		} else {
+			s = (float) SlgqUtils.currentValue(TimeType.S, d) / SlgqUtils.getMaxValue(TimeType.S);
+			l = (float) SlgqUtils.currentValue(TimeType.L, d) / SlgqUtils.getMaxValue(TimeType.L);
+			g = (float) SlgqUtils.currentValue(TimeType.G, d) / SlgqUtils.getMaxValue(TimeType.G);
+			q = (float) SlgqUtils.currentValue(TimeType.Q, d) / SlgqUtils.getMaxValue(TimeType.Q);
+		}
 		
-		if (autoUpdates) {
+		if (autoUpdates && !paused) {
 			Handler h = new Handler();
-			h.postDelayed(new Runnable() { @Override public void run() {
-				updateTimeValues();
-				invalidateSelf();
-			}}, SlgqUtils.millisTillNextUpdate(TimeType.Q, d));
+			h.postDelayed(updater, allowFractions ? 8 : SlgqUtils.millisTillNextUpdate(TimeType.Q, d));
 		}
 	}
 	@Override protected void onBoundsChange(Rect bounds) {
